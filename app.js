@@ -9,14 +9,14 @@ if(process.argv.length < 3)
 input = process.argv[2]
 console.log(input)
 
-geoUtil.geocode(input, (error, geoData) => {
+geoUtil.geocode(input, (error, {latitude, longitude, location} ={}) => {
     if(error)
     {
         return console.log(error);
     }
     // console.log('Error: ' + error);
     // console.log('Data: ',  data);
-    forecast.forecast(geoData.latitude,geoData.longitude, 'f',  (error, forecastData) => {
+    forecast.forecast(latitude, longitude, 'f',  (error, {weatherDesc: weather, temperature, unit, feelsLike} = {}) => {
             if(error)
             {
                 return console.log(error);
@@ -24,14 +24,14 @@ geoUtil.geocode(input, (error, geoData) => {
             //console.log('Error: ', error)
             //console.log('Data: ', forecastData)
             const finalForecast = 'In ' 
-                    + geoData.location 
+                    + location
                     + ', it is ' 
-                    + forecastData.weatherDesc 
+                    + weather
                     + ', with a temperature of '
-                    + forecastData.temperature
-                    + forecastData.unit
+                    + temperature
+                    + unit
                     + ' (feels like '
-                    + forecastData.feelsLike
+                    + feelsLike
                     +'). '
             console.log(finalForecast)
             }
